@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="description" content="GoalForge - Transform your aspirations into achievements. A beautiful, intuitive goal tracking application." />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Preconnect to Google Fonts for better performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="keywords" content="goals, productivity, tracking, achievement, personal development, goal setting" />
+    <meta name="author" content="GoalForge" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:title" content="GoalForge - Transform Your Aspirations Into Achievements" />
+    <meta property="og:description" content="A beautiful, intuitive goal tracking application to help you achieve your dreams." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="%PUBLIC_URL%" />
+    <meta property="og:image" content="%PUBLIC_URL%/logo512.png" />
+    <meta property="og:site_name" content="GoalForge" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="GoalForge - Transform Your Aspirations Into Achievements" />
+    <meta name="twitter:description" content="A beautiful, intuitive goal tracking application to help you achieve your dreams." />
+    <meta name="twitter:image" content="%PUBLIC_URL%/logo512.png" />
+    
+    <title>GoalForge - Transform Your Aspirations Into Achievements</title>
+    
+    <style>
+      /* Loading screen styles */
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #f0f9ff 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+      
+      .loading-screen.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .loading-logo {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #1f2937;
+        margin-bottom: 1rem;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .loading-logo .highlight {
+        background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #e5e7eb;
+        border-top: 4px solid #0ea5e9;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .loading-text {
+        margin-top: 1rem;
+        color: #6b7280;
+        font-size: 0.875rem;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-logo">
+        Goal<span class="highlight">Forge</span>
+      </div>
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Loading your goals...</div>
+    </div>
+    
+    <div id="root"></div>
+    
+    <script>
+      // Hide loading screen when React app is ready
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.classList.add('fade-out');
+            setTimeout(function() {
+              loadingScreen.style.display = 'none';
+            }, 500);
+          }
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
