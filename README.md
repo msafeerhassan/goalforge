@@ -33,6 +33,17 @@ npm run build
 ```
 
 This creates a `build` folder with all the optimized files.
+>>>>>>> e0ff898365b00d58ef04b15fe8f3e4e94a5cb26d
+
+Then go to http://localhost:3000 and it should work.
+
+## Building for production
+
+```bash
+npm run build
+```
+
+This creates a `build` folder with all the optimized files.
 
 ## How I built it
 
