@@ -1,19 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
 
-// Mock localStorage
-const localStorageMock = {
+const storageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn(),
 };
-global.localStorage = localStorageMock;
+global.localStorage = storageMock;
 
 describe('GoalForge App', () => {
   beforeEach(() => {
-    localStorageMock.getItem.mockReturnValue(null);
-    localStorageMock.setItem.mockClear();
+    storageMock.getItem.mockReturnValue(null);
+    storageMock.setItem.mockClear();
   });
 
   test('renders GoalForge title', () => {
@@ -48,8 +47,7 @@ describe('GoalForge App', () => {
   });
 
   test('shows stats when goals exist', () => {
-    // Mock localStorage to return existing goals
-    localStorageMock.getItem.mockReturnValue(JSON.stringify([
+    storageMock.getItem.mockReturnValue(JSON.stringify([
       { id: 1, text: 'Test goal', completed: false, createdAt: new Date().toISOString() }
     ]));
     
@@ -65,12 +63,10 @@ describe('GoalForge App', () => {
     const input = screen.getByPlaceholderText(/Read 20 pages daily/i);
     const addButton = screen.getByText(/Add Goal/i);
     
-    // Test empty input
     fireEvent.change(input, { target: { value: '' } });
     fireEvent.click(addButton);
     expect(screen.getByText(/Please enter a goal/i)).toBeInTheDocument();
     
-    // Test too short input
     fireEvent.change(input, { target: { value: 'Hi' } });
     fireEvent.click(addButton);
     expect(screen.getByText(/Goal must be at least 3 characters/i)).toBeInTheDocument();

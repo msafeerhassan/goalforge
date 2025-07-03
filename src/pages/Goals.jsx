@@ -3,31 +3,31 @@ import GoalInput from '../components/GoalInput';
 import GoalList from '../components/GoalList';
 
 export default function Goals() {
-  const [goals, setGoals] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [myGoals, setMyGoals] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     try {
-      const storedGoals = JSON.parse(localStorage.getItem('goals')) || [];
-      setGoals(storedGoals);
+      const savedGoals = JSON.parse(localStorage.getItem('goals')) || [];
+      setMyGoals(savedGoals);
     } catch (error) {
       console.error('Error loading goals:', error);
-      setGoals([]);
+      setMyGoals([]);
     }
-    setIsLoaded(true);
+    setDataLoaded(true);
   }, []);
 
   useEffect(() => {
-    if (isLoaded) {
+    if (dataLoaded) {
       try {
-        localStorage.setItem('goals', JSON.stringify(goals));
+        localStorage.setItem('goals', JSON.stringify(myGoals));
       } catch (error) {
         console.error('Error saving goals:', error);
       }
     }
-  }, [goals, isLoaded]);
+  }, [myGoals, dataLoaded]);
 
-  const addGoal = (text) => {
+  const createGoal = (text) => {
     const newGoal = {
       id: `goal_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       text: text,
@@ -35,12 +35,12 @@ export default function Goals() {
       createdAt: new Date().toISOString(),
       completedAt: null,
     };
-    setGoals([...goals, newGoal]);
+    setMyGoals([...myGoals, newGoal]);
   };
 
-  const toggleComplete = (id) => {
-    setGoals(
-      goals.map((goal) =>
+  const markComplete = (id) => {
+    setMyGoals(
+      myGoals.map((goal) =>
         goal.id === id 
           ? { 
               ...goal, 
@@ -52,29 +52,29 @@ export default function Goals() {
     );
   };
 
-  const deleteGoal = (id) => {
-    setGoals(goals.filter((goal) => goal.id !== id));
+  const removeGoal = (id) => {
+    setMyGoals(myGoals.filter((goal) => goal.id !== id));
   };
 
-  const updateGoal = (id, text) => {
-    setGoals(
-      goals.map((goal) => (goal.id === id ? { ...goal, text } : goal))
+  const editGoal = (id, text) => {
+    setMyGoals(
+      myGoals.map((goal) => (goal.id === id ? { ...goal, text } : goal))
     );
   };
 
-  const clearAllGoals = () => {
+  const clearAll = () => {
     if (window.confirm('Are you sure you want to delete all goals? This action cannot be undone.')) {
-      setGoals([]);
+      setMyGoals([]);
     }
   };
 
-  const clearCompleted = () => {
+  const clearFinished = () => {
     if (window.confirm('Are you sure you want to delete all completed goals?')) {
-      setGoals(goals.filter(goal => !goal.completed));
+      setMyGoals(myGoals.filter(goal => !goal.completed));
     }
   };
 
-  const completedGoals = goals.filter(goal => goal.completed).length;
+  const finishedCount = myGoals.filter(goal => goal.completed).length;
 
   return (
     <>
@@ -89,37 +89,37 @@ export default function Goals() {
       </header>
 
       <div className="animate-slideInRight">
-        <GoalInput onAdd={addGoal} />
+        <GoalInput onAdd={createGoal} />
       </div>
 
       <div className="goals-container animate-scaleIn">
-        {goals.length > 0 ? (
+        {myGoals.length > 0 ? (
           <>
             <div className="goals-header">
               <h2 className="goals-title">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                Your Goals ({goals.length})
+                Your Goals ({myGoals.length})
               </h2>
               <div className="goals-actions">
-                {completedGoals > 0 && (
+                {finishedCount > 0 && (
                   <button
-                    onClick={clearCompleted}
+                    onClick={clearFinished}
                     className="action-button"
                   >
                     Clear Completed
                   </button>
                 )}
                 <button
-                  onClick={clearAllGoals}
+                  onClick={clearAll}
                   className="action-button"
                 >
                   Clear All
                 </button>
               </div>
             </div>
-            <GoalList goals={goals} onToggle={toggleComplete} onDelete={deleteGoal} onUpdate={updateGoal} />
+            <GoalList goals={myGoals} onToggle={markComplete} onDelete={removeGoal} onUpdate={editGoal} />
           </>
         ) : (
           <div className="empty-state">

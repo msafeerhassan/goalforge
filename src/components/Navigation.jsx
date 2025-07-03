@@ -2,9 +2,9 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function Navigation() {
-  const location = useLocation();
+  const currentLocation = useLocation();
 
-  const navItems = [
+  const menuItems = [
     { path: '/', label: 'Dashboard', icon: '📊' },
     { path: '/goals', label: 'Goals', icon: '🎯' },
     { path: '/analytics', label: 'Analytics', icon: '📈' },
@@ -12,9 +12,9 @@ export default function Navigation() {
     { path: '/profile', label: 'Profile', icon: '👤' }
   ];
 
-  const isActive = (path) => {
-    if (path === '/') return location.pathname === '/';
-    return location.pathname.startsWith(path);
+  const checkActive = (path) => {
+    if (path === '/') return currentLocation.pathname === '/';
+    return currentLocation.pathname.startsWith(path);
   };
 
   return (
@@ -25,11 +25,11 @@ export default function Navigation() {
         </Link>
       </div>
       <div className="nav-links">
-        {navItems.map((item) => (
+        {menuItems.map((item) => (
           <Link
             key={item.path}
             to={item.path}
-            className={`nav-link ${isActive(item.path) ? 'active' : ''}`}
+            className={`nav-link ${checkActive(item.path) ? 'active' : ''}`}
           >
             <span className="nav-icon">{item.icon}</span>
             <span className="nav-label">{item.label}</span>

@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
 
 export default function Dashboard() {
-  const [goals, setGoals] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [goalsList, setGoalsList] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     try {
-      const storedGoals = JSON.parse(localStorage.getItem('goals')) || [];
-      setGoals(storedGoals);
+      const savedGoals = JSON.parse(localStorage.getItem('goals')) || [];
+      setGoalsList(savedGoals);
     } catch (error) {
       console.error('Error loading goals:', error);
-      setGoals([]);
+      setGoalsList([]);
     }
-    setIsLoaded(true);
+    setLoaded(true);
   }, []);
 
-  const completedGoals = goals.filter(goal => goal.completed).length;
-  const inProgressGoals = goals.length - completedGoals;
-  const recentGoals = goals.slice(-3).reverse();
+  const doneGoals = goalsList.filter(goal => goal.completed).length;
+  const activeGoals = goalsList.length - doneGoals;
+  const latestGoals = goalsList.slice(-3).reverse();
 
-  const getSuccessRate = () => {
-    if (goals.length === 0) return 0;
-    return Math.round((completedGoals / goals.length) * 100);
+  const calculateSuccessRate = () => {
+    if (goalsList.length === 0) return 0;
+    return Math.round((doneGoals / goalsList.length) * 100);
   };
 
   return (
@@ -38,20 +38,20 @@ export default function Dashboard() {
 
       <div className="stats-grid animate-slideInLeft">
         <div className="stat-card">
-          <div className="stat-number" style={{ color: 'var(--primary-600)' }}>{goals.length}</div>
+          <div className="stat-number" style={{ color: 'var(--primary-600)' }}>{goalsList.length}</div>
           <div className="stat-label">Total Goals</div>
         </div>
         <div className="stat-card">
-          <div className="stat-number" style={{ color: 'var(--success-600)' }}>{completedGoals}</div>
+          <div className="stat-number" style={{ color: 'var(--success-600)' }}>{doneGoals}</div>
           <div className="stat-label">Completed</div>
         </div>
         <div className="stat-card">
-          <div className="stat-number" style={{ color: 'var(--warning-600)' }}>{inProgressGoals}</div>
+          <div className="stat-number" style={{ color: 'var(--warning-600)' }}>{activeGoals}</div>
           <div className="stat-label">In Progress</div>
         </div>
         <div className="stat-card">
           <div className="stat-number" style={{ color: 'var(--info-600)' }}>
-            {getSuccessRate()}%
+            {calculateSuccessRate()}%
           </div>
           <div className="stat-label">Success Rate</div>
         </div>
@@ -67,9 +67,9 @@ export default function Dashboard() {
           </h2>
         </div>
         
-        {recentGoals.length > 0 ? (
+        {latestGoals.length > 0 ? (
           <div className="recent-goals">
-            {recentGoals.map((goal) => (
+            {latestGoals.map((goal) => (
               <div key={goal.id} className={`goal-item ${goal.completed ? 'completed' : ''}`}>
                 <div className="goal-status">
                   {goal.completed ? '✅' : '🎯'}

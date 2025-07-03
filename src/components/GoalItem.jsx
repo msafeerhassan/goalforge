@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 
 export default function GoalItem({ goal, onToggle, onDelete, onUpdate }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [text, setText] = useState(goal.text);
+  const [editMode, setEditMode] = useState(false);
+  const [editText, setEditText] = useState(goal.text);
 
-  const handleUpdate = () => {
-    if (text.trim() === '') return;
-    onUpdate(goal.id, text.trim());
-    setIsEditing(false);
+  const saveEdit = () => {
+    if (editText.trim() === '') return;
+    onUpdate(goal.id, editText.trim());
+    setEditMode(false);
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      handleUpdate();
+      saveEdit();
     }
     if (e.key === 'Escape') {
-      setText(goal.text);
-      setIsEditing(false);
+      setEditText(goal.text);
+      setEditMode(false);
     }
   };
 
@@ -30,13 +30,13 @@ export default function GoalItem({ goal, onToggle, onDelete, onUpdate }) {
           className="h-6 w-6 rounded-full text-primary-600 focus:ring-primary-500 border-gray-300"
         />
         <div className="ml-4">
-          {isEditing ? (
+          {editMode ? (
             <input
               type="text"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              onBlur={handleUpdate}
-              onKeyDown={handleKeyDown}
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+              onBlur={saveEdit}
+              onKeyDown={handleKeyPress}
               className="border-b-2 border-primary-500 focus:outline-none"
               autoFocus
             />
@@ -52,7 +52,7 @@ export default function GoalItem({ goal, onToggle, onDelete, onUpdate }) {
       </div>
       <div className="flex items-center">
         <button 
-          onClick={() => setIsEditing(!isEditing)} 
+          onClick={() => setEditMode(!editMode)} 
           className="p-2 text-gray-400 hover:text-primary-500"
           title="Edit goal"
         >

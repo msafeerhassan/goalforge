@@ -9,7 +9,7 @@ export default function Layout({ children }) {
         {children}
       </div>
       <footer className="app-footer">
-        Built with ❤️ for your success
+        Built with ❤️ by Safeer Hassan
       </footer>
     </div>
   );

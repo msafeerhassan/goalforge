@@ -7,9 +7,9 @@ import Goals from './pages/Goals';
 import Analytics from './pages/Profile';
 import Habits from './pages/Habits';
 import ProfileLayout from './pages/ProfileLayout';
-import ProfileOverview from './pages/Profile/Overview';
-import ProfileAchievements from './pages/Profile/Achievements';
-import ProfileSettings from './pages/Profile/Settings';
+import UserOverview from './pages/Profile/Overview';
+import UserAchievements from './pages/Profile/Achievements';
+import UserSettings from './pages/Profile/Settings';
 
 function App() {
   return (
@@ -21,9 +21,9 @@ function App() {
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/habits" element={<Habits />} />
           <Route path="/profile" element={<ProfileLayout />}>
-            <Route path="overview" element={<ProfileOverview />} />
-            <Route path="achievements" element={<ProfileAchievements />} />
-            <Route path="settings" element={<ProfileSettings />} />
+            <Route path="overview" element={<UserOverview />} />
+            <Route path="achievements" element={<UserAchievements />} />
+            <Route path="settings" element={<UserSettings />} />
           </Route>
         </Routes>
       </Layout>

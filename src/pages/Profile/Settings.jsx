@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 export default function ProfileSettings() {
-  const [preferences, setPreferences] = useState({
+  const [userPrefs, setUserPrefs] = useState({
     notifications: true,
     darkMode: false,
     autoBackup: true,
@@ -10,43 +10,43 @@ export default function ProfileSettings() {
   });
 
   useEffect(() => {
-    loadPreferences();
+    loadUserPrefs();
   }, []);
 
-  const loadPreferences = () => {
+  const loadUserPrefs = () => {
     try {
-      const saved = JSON.parse(localStorage.getItem('userPreferences')) || {};
-      setPreferences(prev => ({ ...prev, ...saved }));
+      const savedPrefs = JSON.parse(localStorage.getItem('userPreferences')) || {};
+      setUserPrefs(prev => ({ ...prev, ...savedPrefs }));
     } catch (error) {
       console.error('Error loading preferences:', error);
     }
   };
 
-  const updatePreference = (key, value) => {
-    const newPrefs = { ...preferences, [key]: value };
-    setPreferences(newPrefs);
+  const changePref = (key, value) => {
+    const newPrefs = { ...userPrefs, [key]: value };
+    setUserPrefs(newPrefs);
     localStorage.setItem('userPreferences', JSON.stringify(newPrefs));
   };
 
-  const exportData = () => {
+  const downloadData = () => {
     try {
-      const goals = JSON.parse(localStorage.getItem('goals')) || [];
-      const habits = JSON.parse(localStorage.getItem('habits')) || [];
-      const exportData = {
-        goals,
-        habits,
-        preferences,
+      const goalsList = JSON.parse(localStorage.getItem('goals')) || [];
+      const habitsList = JSON.parse(localStorage.getItem('habits')) || [];
+      const backupData = {
+        goals: goalsList,
+        habits: habitsList,
+        preferences: userPrefs,
         exportDate: new Date().toISOString(),
         version: '1.0'
       };
       
-      const dataBlob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(dataBlob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `goalforge-backup-${new Date().toISOString().split('T')[0]}.json`;
-      link.click();
-      URL.revokeObjectURL(url);
+      const fileBlob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+      const downloadUrl = URL.createObjectURL(fileBlob);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = downloadUrl;
+      downloadLink.download = `goalforge-backup-${new Date().toISOString().split('T')[0]}.json`;
+      downloadLink.click();
+      URL.revokeObjectURL(downloadUrl);
       
       alert('Data exported successfully!');
     } catch (error) {
@@ -55,28 +55,28 @@ export default function ProfileSettings() {
     }
   };
 
-  const importData = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+  const uploadData = (event) => {
+    const selectedFile = event.target.files[0];
+    if (!selectedFile) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
       try {
-        const data = JSON.parse(e.target.result);
+        const importedData = JSON.parse(e.target.result);
         
-        if (data.goals) localStorage.setItem('goals', JSON.stringify(data.goals));
-        if (data.habits) localStorage.setItem('habits', JSON.stringify(data.habits));
-        if (data.preferences) localStorage.setItem('userPreferences', JSON.stringify(data.preferences));
+        if (importedData.goals) localStorage.setItem('goals', JSON.stringify(importedData.goals));
+        if (importedData.habits) localStorage.setItem('habits', JSON.stringify(importedData.habits));
+        if (importedData.preferences) localStorage.setItem('userPreferences', JSON.stringify(importedData.preferences));
         
         alert('Data imported successfully! Please refresh the page.');
       } catch (error) {
         alert('Invalid file format. Please select a valid GoalForge backup file.');
       }
     };
-    reader.readAsText(file);
+    fileReader.readAsText(selectedFile);
   };
 
-  const clearAllData = () => {
+  const wipeAllData = () => {
     if (window.confirm('Are you sure you want to clear all data? This action cannot be undone!')) {
       localStorage.removeItem('goals');
       localStorage.removeItem('habits');
@@ -91,7 +91,6 @@ export default function ProfileSettings() {
       <h2>Settings</h2>
       <p>Manage your preferences and data</p>
 
-      {/* Preferences */}
       <div className="settings-group">
         <h3>Preferences</h3>
         <div className="preferences-grid">
@@ -99,8 +98,8 @@ export default function ProfileSettings() {
             <label className="preference-label">
               <input
                 type="checkbox"
-                checked={preferences.notifications}
-                onChange={(e) => updatePreference('notifications', e.target.checked)}
+                checked={userPrefs.notifications}
+                onChange={(e) => changePref('notifications', e.target.checked)}
               />
               <span>Enable notifications</span>
             </label>
@@ -111,8 +110,8 @@ export default function ProfileSettings() {
             <label className="preference-label">
               <input
                 type="checkbox"
-                checked={preferences.showCompletedGoals}
-                onChange={(e) => updatePreference('showCompletedGoals', e.target.checked)}
+                checked={userPrefs.showCompletedGoals}
+                onChange={(e) => changePref('showCompletedGoals', e.target.checked)}
               />
               <span>Show completed goals</span>
             </label>
@@ -123,8 +122,8 @@ export default function ProfileSettings() {
             <label className="preference-label">
               <input
                 type="checkbox"
-                checked={preferences.dailyReminders}
-                onChange={(e) => updatePreference('dailyReminders', e.target.checked)}
+                checked={userPrefs.dailyReminders}
+                onChange={(e) => changePref('dailyReminders', e.target.checked)}
               />
               <span>Daily reminders</span>
             </label>
@@ -135,8 +134,8 @@ export default function ProfileSettings() {
             <label className="preference-label">
               <input
                 type="checkbox"
-                checked={preferences.autoBackup}
-                onChange={(e) => updatePreference('autoBackup', e.target.checked)}
+                checked={userPrefs.autoBackup}
+                onChange={(e) => changePref('autoBackup', e.target.checked)}
               />
               <span>Auto backup data</span>
             </label>
@@ -147,8 +146,8 @@ export default function ProfileSettings() {
             <label className="preference-label">
               <input
                 type="checkbox"
-                checked={preferences.darkMode}
-                onChange={(e) => updatePreference('darkMode', e.target.checked)}
+                checked={userPrefs.darkMode}
+                onChange={(e) => changePref('darkMode', e.target.checked)}
                 disabled
               />
               <span>Dark mode (coming soon)</span>
@@ -158,11 +157,10 @@ export default function ProfileSettings() {
         </div>
       </div>
 
-      {/* Data Management */}
       <div className="settings-group">
         <h3>Data Management</h3>
         <div className="data-actions">
-          <button onClick={exportData} className="action-btn export-btn">
+          <button onClick={downloadData} className="action-btn export-btn">
             📤 Export Data
           </button>
           
@@ -171,12 +169,12 @@ export default function ProfileSettings() {
             <input
               type="file"
               accept=".json"
-              onChange={importData}
+              onChange={uploadData}
               style={{ display: 'none' }}
             />
           </label>
           
-          <button onClick={clearAllData} className="action-btn clear-btn">
+          <button onClick={wipeAllData} className="action-btn clear-btn">
             🗑️ Clear All Data
           </button>
         </div>
@@ -188,13 +186,12 @@ export default function ProfileSettings() {
         </div>
       </div>
 
-      {/* App Information */}
       <div className="settings-group">
         <h3>App Information</h3>
         <div className="app-info">
           <p><strong>Version:</strong> 1.0.0</p>
           <p><strong>Last updated:</strong> July 2025</p>
-          <p><strong>Developer:</strong> GoalForge Team</p>
+          <p><strong>Developer:</strong> Safeer Hassan</p>
         </div>
       </div>
     </div>
