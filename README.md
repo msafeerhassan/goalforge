@@ -2,8 +2,6 @@
 
 Transform your aspirations into achievements with GoalForge - a comprehensive productivity platform built with React. Track goals, build habits, monitor analytics, and manage your profile all in one beautiful, intuitive application.
 
-![GoalForge Screenshot](https://via.placeholder.com/800x400/0ea5e9/ffffff?text=GoalForge+Dashboard)
-
 ## ✨ Features
 
 ### 🎯 Goals Management
