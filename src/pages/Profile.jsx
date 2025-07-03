@@ -16,23 +16,67 @@ export default function Analytics() {
       console.error('Error loading goals:', error);
     }
 
-    // Fetch motivational quotes from API
+    // Fetch motivational quotes
     const fetchQuotes = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=10');
-        if (!response.ok) throw new Error('Failed to fetch quotes');
-        const data = await response.json();
         
-        // Transform posts into motivational format
-        const transformedQuotes = data.map(post => ({
-          id: post.id,
-          text: post.title.charAt(0).toUpperCase() + post.title.slice(1),
-          author: `User ${post.userId}`
-        }));
+        // Use a collection of real motivational quotes
+        const motivationalQuotes = [
+          {
+            id: 1,
+            text: "The only way to do great work is to love what you do.",
+            author: "Steve Jobs"
+          },
+          {
+            id: 2,
+            text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+            author: "Winston Churchill"
+          },
+          {
+            id: 3,
+            text: "The future belongs to those who believe in the beauty of their dreams.",
+            author: "Eleanor Roosevelt"
+          },
+          {
+            id: 4,
+            text: "It is during our darkest moments that we must focus to see the light.",
+            author: "Aristotle"
+          },
+          {
+            id: 5,
+            text: "Success is walking from failure to failure with no loss of enthusiasm.",
+            author: "Winston Churchill"
+          },
+          {
+            id: 6,
+            text: "The way to get started is to quit talking and begin doing.",
+            author: "Walt Disney"
+          },
+          {
+            id: 7,
+            text: "Don't be afraid to give up the good to go for the great.",
+            author: "John D. Rockefeller"
+          },
+          {
+            id: 8,
+            text: "Innovation distinguishes between a leader and a follower.",
+            author: "Steve Jobs"
+          },
+          {
+            id: 9,
+            text: "The only impossible journey is the one you never begin.",
+            author: "Tony Robbins"
+          },
+          {
+            id: 10,
+            text: "Your time is limited, don't waste it living someone else's life.",
+            author: "Steve Jobs"
+          }
+        ];
         
-        setQuotes(transformedQuotes);
-        setCurrentQuote(transformedQuotes[0]);
+        setQuotes(motivationalQuotes);
+        setCurrentQuote(motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]);
       } catch (err) {
         setError(err.message);
       } finally {

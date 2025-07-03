@@ -6,10 +6,10 @@ import Dashboard from './pages/Dashboard';
 import Goals from './pages/Goals';
 import Analytics from './pages/Profile'; // Renamed from Profile to Analytics
 import Habits from './pages/Habits';
-import Settings from './pages/Settings';
-import General from './pages/Settings/General';
-import Notifications from './pages/Settings/Notifications';
-import Account from './pages/Settings/Account';
+import ProfileLayout from './pages/ProfileLayout';
+import ProfileOverview from './pages/Profile/Overview';
+import ProfileAchievements from './pages/Profile/Achievements';
+import ProfileSettings from './pages/Profile/Settings';
 
 function App() {
   return (
@@ -20,10 +20,10 @@ function App() {
           <Route path="/goals" element={<Goals />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/habits" element={<Habits />} />
-          <Route path="/settings" element={<Settings />}>
-            <Route path="general" element={<General />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="account" element={<Account />} />
+          <Route path="/profile" element={<ProfileLayout />}>
+            <Route path="overview" element={<ProfileOverview />} />
+            <Route path="achievements" element={<ProfileAchievements />} />
+            <Route path="settings" element={<ProfileSettings />} />
           </Route>
         </Routes>
       </Layout>

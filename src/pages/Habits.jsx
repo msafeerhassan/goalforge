@@ -31,19 +31,63 @@ export default function Habits() {
   const fetchTips = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5');
-      if (!response.ok) throw new Error('Failed to fetch tips');
-      const data = await response.json();
+      // Use a real productivity tips API or create our own tips
+      const productivityTips = [
+        {
+          id: 1,
+          title: "Break Down Large Tasks",
+          content: "Divide overwhelming projects into smaller, manageable tasks. This makes them less intimidating and easier to complete.",
+          category: "Productivity"
+        },
+        {
+          id: 2,
+          title: "Use the 2-Minute Rule",
+          content: "If a task takes less than 2 minutes to complete, do it immediately rather than adding it to your to-do list.",
+          category: "Focus"
+        },
+        {
+          id: 3,
+          title: "Practice Time Blocking",
+          content: "Allocate specific time blocks for different activities throughout your day to maintain focus and structure.",
+          category: "Productivity"
+        },
+        {
+          id: 4,
+          title: "Take Regular Breaks",
+          content: "Use the Pomodoro Technique: work for 25 minutes, then take a 5-minute break to maintain peak performance.",
+          category: "Wellness"
+        },
+        {
+          id: 5,
+          title: "Start with Your Most Important Task",
+          content: "Tackle your most challenging or important task first when your energy and focus are at their peak.",
+          category: "Success"
+        },
+        {
+          id: 6,
+          title: "Eliminate Distractions",
+          content: "Identify and remove distractions from your workspace. Turn off notifications and create a focused environment.",
+          category: "Focus"
+        },
+        {
+          id: 7,
+          title: "Set SMART Goals",
+          content: "Make your goals Specific, Measurable, Achievable, Relevant, and Time-bound for better success rates.",
+          category: "Motivation"
+        },
+        {
+          id: 8,
+          title: "Review Your Progress Daily",
+          content: "Spend 5-10 minutes each evening reviewing what you accomplished and planning for tomorrow.",
+          category: "Success"
+        }
+      ];
       
-      // Transform posts into productivity tips
-      const transformedTips = data.map(post => ({
-        id: post.id,
-        title: post.title.charAt(0).toUpperCase() + post.title.slice(1),
-        content: post.body.charAt(0).toUpperCase() + post.body.slice(1),
-        category: ['Productivity', 'Wellness', 'Focus', 'Motivation', 'Success'][Math.floor(Math.random() * 5)]
-      }));
+      // Randomly select 5 tips
+      const shuffled = productivityTips.sort(() => 0.5 - Math.random());
+      const selectedTips = shuffled.slice(0, 5);
       
-      setTips(transformedTips);
+      setTips(selectedTips);
     } catch (error) {
       console.error('Error fetching tips:', error);
     } finally {

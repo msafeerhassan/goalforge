@@ -8,8 +8,8 @@ export default function Navigation() {
     { path: '/', label: 'Dashboard', icon: '📊' },
     { path: '/goals', label: 'Goals', icon: '🎯' },
     { path: '/analytics', label: 'Analytics', icon: '📈' },
-    { path: '/habits', label: 'Habits', icon: '�' },
-    { path: '/settings', label: 'Settings', icon: '⚙️' }
+    { path: '/habits', label: 'Habits', icon: '🔄' },
+    { path: '/profile', label: 'Profile', icon: '👤' }
   ];
 
   return (
