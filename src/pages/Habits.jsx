@@ -6,7 +6,6 @@ export default function Habits() {
   const [tips, setTips] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Load habits from localStorage on component mount
   useEffect(() => {
     try {
       const storedHabits = JSON.parse(localStorage.getItem('habits')) || [];
@@ -15,11 +14,9 @@ export default function Habits() {
       console.error('Error loading habits:', error);
     }
 
-    // Fetch productivity tips from API
     fetchTips();
   }, []);
 
-  // Save habits to localStorage whenever habits change
   useEffect(() => {
     try {
       localStorage.setItem('habits', JSON.stringify(habits));
@@ -31,59 +28,57 @@ export default function Habits() {
   const fetchTips = async () => {
     setLoading(true);
     try {
-      // Use a real productivity tips API or create our own tips
       const productivityTips = [
         {
           id: 1,
-          title: "Break Down Large Tasks",
-          content: "Divide overwhelming projects into smaller, manageable tasks. This makes them less intimidating and easier to complete.",
+          title: "Break tasks into smaller chunks",
+          content: "Big projects feel overwhelming. Break them down into bite-sized pieces that you can actually tackle.",
           category: "Productivity"
         },
         {
           id: 2,
-          title: "Use the 2-Minute Rule",
-          content: "If a task takes less than 2 minutes to complete, do it immediately rather than adding it to your to-do list.",
+          title: "Two-minute rule",
+          content: "If something takes less than 2 minutes, just do it now instead of adding it to your todo list.",
           category: "Focus"
         },
         {
           id: 3,
-          title: "Practice Time Blocking",
-          content: "Allocate specific time blocks for different activities throughout your day to maintain focus and structure.",
+          title: "Time blocking works",
+          content: "Schedule specific time slots for different types of work. Helps you stay focused and avoid multitasking.",
           category: "Productivity"
         },
         {
           id: 4,
-          title: "Take Regular Breaks",
-          content: "Use the Pomodoro Technique: work for 25 minutes, then take a 5-minute break to maintain peak performance.",
+          title: "Take actual breaks",
+          content: "Pomodoro technique is popular for a reason - 25 mins work, 5 min break. Don't skip the breaks.",
           category: "Wellness"
         },
         {
           id: 5,
-          title: "Start with Your Most Important Task",
-          content: "Tackle your most challenging or important task first when your energy and focus are at their peak.",
+          title: "Do the hard stuff first",
+          content: "Tackle your most challenging task when you're fresh. Don't save it for when you're tired.",
           category: "Success"
         },
         {
           id: 6,
-          title: "Eliminate Distractions",
-          content: "Identify and remove distractions from your workspace. Turn off notifications and create a focused environment.",
+          title: "Kill the distractions",
+          content: "Turn off notifications, close unnecessary tabs, put your phone in another room if you have to.",
           category: "Focus"
         },
         {
           id: 7,
-          title: "Set SMART Goals",
-          content: "Make your goals Specific, Measurable, Achievable, Relevant, and Time-bound for better success rates.",
+          title: "SMART goals actually work",
+          content: "Specific, Measurable, Achievable, Relevant, Time-bound. Sounds corporate but it's effective.",
           category: "Motivation"
         },
         {
           id: 8,
-          title: "Review Your Progress Daily",
-          content: "Spend 5-10 minutes each evening reviewing what you accomplished and planning for tomorrow.",
+          title: "Daily review habit",
+          content: "Spend 5-10 minutes each evening reviewing what you did and planning tomorrow. Game changer.",
           category: "Success"
         }
       ];
       
-      // Randomly select 5 tips
       const shuffled = productivityTips.sort(() => 0.5 - Math.random());
       const selectedTips = shuffled.slice(0, 5);
       

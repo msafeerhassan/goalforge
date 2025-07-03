@@ -9,7 +9,7 @@ export default function Dashboard() {
       const storedGoals = JSON.parse(localStorage.getItem('goals')) || [];
       setGoals(storedGoals);
     } catch (error) {
-      console.error('Error loading goals from localStorage:', error);
+      console.error('Error loading goals:', error);
       setGoals([]);
     }
     setIsLoaded(true);
@@ -19,9 +19,13 @@ export default function Dashboard() {
   const inProgressGoals = goals.length - completedGoals;
   const recentGoals = goals.slice(-3).reverse();
 
+  const getSuccessRate = () => {
+    if (goals.length === 0) return 0;
+    return Math.round((completedGoals / goals.length) * 100);
+  };
+
   return (
     <>
-      {/* Header Section */}
       <header className="app-header">
         <h1 className="app-title">
           Welcome to Goal<span className="highlight">Forge</span>
@@ -32,7 +36,6 @@ export default function Dashboard() {
         <div className="app-divider"></div>
       </header>
 
-      {/* Stats Section */}
       <div className="stats-grid animate-slideInLeft">
         <div className="stat-card">
           <div className="stat-number" style={{ color: 'var(--primary-600)' }}>{goals.length}</div>
@@ -48,13 +51,12 @@ export default function Dashboard() {
         </div>
         <div className="stat-card">
           <div className="stat-number" style={{ color: 'var(--info-600)' }}>
-            {goals.length > 0 ? Math.round((completedGoals / goals.length) * 100) : 0}%
+            {getSuccessRate()}%
           </div>
           <div className="stat-label">Success Rate</div>
         </div>
       </div>
 
-      {/* Recent Goals Section */}
       <div className="goals-container animate-scaleIn">
         <div className="goals-header">
           <h2 className="goals-title">

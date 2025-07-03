@@ -12,6 +12,11 @@ export default function Navigation() {
     { path: '/profile', label: 'Profile', icon: '👤' }
   ];
 
+  const isActive = (path) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname.startsWith(path);
+  };
+
   return (
     <nav className="navigation">
       <div className="nav-brand">
@@ -24,7 +29,7 @@ export default function Navigation() {
           <Link
             key={item.path}
             to={item.path}
-            className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+            className={`nav-link ${isActive(item.path) ? 'active' : ''}`}
           >
             <span className="nav-icon">{item.icon}</span>
             <span className="nav-label">{item.label}</span>

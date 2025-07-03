@@ -7,7 +7,6 @@ export default function GoalInput({ onAdd }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validation
     if (text.trim() === '') {
       setError('Please enter a goal');
       return;
@@ -30,7 +29,7 @@ export default function GoalInput({ onAdd }) {
 
   const handleInputChange = (e) => {
     setText(e.target.value);
-    if (error) setError(''); // Clear error when user starts typing
+    if (error) setError('');
   };
 
   return (
@@ -76,7 +75,3 @@ export default function GoalInput({ onAdd }) {
     </div>
   );
 }
-
-
-// Close GoalInput Component
-// This component is used to input new goals and add them to the list.

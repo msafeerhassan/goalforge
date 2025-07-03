@@ -4,7 +4,7 @@ import './App.css';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Goals from './pages/Goals';
-import Analytics from './pages/Profile'; // Renamed from Profile to Analytics
+import Analytics from './pages/Profile';
 import Habits from './pages/Habits';
 import ProfileLayout from './pages/ProfileLayout';
 import ProfileOverview from './pages/Profile/Overview';

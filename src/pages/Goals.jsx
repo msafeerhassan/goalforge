@@ -11,7 +11,7 @@ export default function Goals() {
       const storedGoals = JSON.parse(localStorage.getItem('goals')) || [];
       setGoals(storedGoals);
     } catch (error) {
-      console.error('Error loading goals from localStorage:', error);
+      console.error('Error loading goals:', error);
       setGoals([]);
     }
     setIsLoaded(true);
@@ -22,7 +22,7 @@ export default function Goals() {
       try {
         localStorage.setItem('goals', JSON.stringify(goals));
       } catch (error) {
-        console.error('Error saving goals to localStorage:', error);
+        console.error('Error saving goals:', error);
       }
     }
   }, [goals, isLoaded]);
@@ -78,7 +78,6 @@ export default function Goals() {
 
   return (
     <>
-      {/* Header Section */}
       <header className="app-header">
         <h1 className="app-title">
           Manage Your <span className="highlight">Goals</span>
@@ -89,12 +88,10 @@ export default function Goals() {
         <div className="app-divider"></div>
       </header>
 
-      {/* Goal Input Section */}
       <div className="animate-slideInRight">
         <GoalInput onAdd={addGoal} />
       </div>
 
-      {/* Goals List Section */}
       <div className="goals-container animate-scaleIn">
         {goals.length > 0 ? (
           <>
